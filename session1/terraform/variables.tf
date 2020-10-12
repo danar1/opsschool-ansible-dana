@@ -7,7 +7,7 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
-variable vpc_id {
+variable "vpc_id" {
   description = "AWS VPC id"
   default     = "vpc-876ddde1"
 }

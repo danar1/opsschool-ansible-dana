@@ -29,7 +29,7 @@ resource "tls_private_key" "server_key" {
 
 resource "aws_key_pair" "server_key" {
   key_name   = "server_key"
-  public_key = "${tls_private_key.server_key.public_key_openssh}"
+  public_key = tls_private_key.server_key.public_key_openssh
 }
 
 resource "aws_security_group" "ansible-sg" {
