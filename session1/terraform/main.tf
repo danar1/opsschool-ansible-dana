@@ -29,7 +29,7 @@ resource "tls_private_key" "server_key" {
 
 resource "aws_key_pair" "server_key" {
   key_name   = "server_key"
-  public_key = "${tls_private_key.server_key.public_key_openssh}"
+  public_key = tls_private_key.server_key.public_key_openssh
 }
 
 resource "aws_security_group" "ansible-sg" {
@@ -69,6 +69,8 @@ resource "aws_instance" "server" {
 
   associate_public_ip_address = true
 
+  subnet_id = var.subnet_id
+
   vpc_security_group_ids = [aws_security_group.ansible-sg.id]
   key_name               = aws_key_pair.ansible_key.key_name
 
@@ -84,6 +86,8 @@ resource "aws_instance" "nodes" {
   instance_type = "t2.micro"
 
   associate_public_ip_address = true
+
+  subnet_id = var.subnet_id
 
   vpc_security_group_ids = [aws_security_group.ansible-sg.id]
   key_name               = aws_key_pair.ansible_key.key_name
