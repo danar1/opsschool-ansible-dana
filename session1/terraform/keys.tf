@@ -10,5 +10,5 @@ resource "aws_key_pair" "ansible_key" {
 
 resource "local_file" "ansible_key" {
   sensitive_content  = tls_private_key.ansible_key.private_key_pem
-  filename           = "ansible.pem"
+  filename           = "ansible_key.pem"
 }
