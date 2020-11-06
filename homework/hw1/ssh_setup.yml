@@ -1,7 +1,6 @@
 ---
 - name: Setup ssh keys 
   hosts: nodes
-  # become: true
   vars_files:
     - ./external_vars.yml
   debugger: on_failed
