@@ -1,0 +1,28 @@
+---
+- name: Setup ssh keys 
+  hosts: nodes
+  # become: true
+  vars_files:
+    - ./external_vars.yml
+  debugger: on_failed
+
+  tasks:    
+    - name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
+      community.crypto.openssh_keypair:
+        path: "/home/ubuntu/.ssh/{{ ssh_file_name }}"
+      delegate_to: localhost
+      connection: local
+
+    - name: Create user dana
+      user:
+        name: "{{ user }}"
+        state: present
+      become: true
+
+    - name: Set authorized key 
+      ansible.posix.authorized_key:
+        user: "{{ user }}"
+        state: present
+        key: "{{ lookup('file', '/home/ubuntu/.ssh/{{ ssh_file_name }}.pub') }}"
+      become: true
+        

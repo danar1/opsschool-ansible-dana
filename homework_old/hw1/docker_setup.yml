@@ -1,0 +1,92 @@
+---
+- name: Install docker engine
+  hosts: nodes
+  become: true
+  vars_files:
+    - ./external_vars.yml
+
+  tasks:    
+    - name: Uninstall older Docker versions
+      apt:
+        name: "{{ item }}"
+        state: absent
+      loop:
+        - docker
+        - docker-engine
+        - docker.io
+        - containerd
+        - runc
+
+    - name: Install packages (to allow apt to use a repository over HTTPS)
+      apt:
+        name: "{{ item }}"
+        state: latest
+        update_cache: yes
+      loop:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - gnupg-agent
+        - software-properties-common
+
+    - name: Add docker’s official GPG key
+      apt_key:
+        id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+        filename: docker_registry
+
+    - name: Install docker engine
+      apt:
+        name: "{{ item }}"
+        state: latest
+        update_cache: yes
+      loop:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+      notify:
+      - Restart docker
+
+    - name: Add ubuntu user to the docker group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+
+   # Install pip and docker SDK for python to allow the usage of community.general.docker_container module
+    - name: Install pip3 
+      apt:
+        name: python3-pip
+        state: latest
+
+    - name: Install docker SDK for python 
+      pip:
+        name: docker
+
+    - name: Flush handler (restart docker)
+      meta: flush_handlers 
+
+    - name: Run nginx container
+      community.general.docker_container:
+        name: "{{ container_name }}"
+        image: nginx
+        detach: yes
+        state: started
+        ports:
+          - "8080:80"
+    
+  handlers:
+    - name: Restart docker
+      service:
+        name: docker
+        state: restarted
+      
+
+    
+

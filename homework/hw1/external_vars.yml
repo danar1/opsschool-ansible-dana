@@ -1,2 +1,4 @@
 ssh_key: /home/ubuntu/.ssh/ansible_key.pem
 container_name: nginx_ops
+ssh_file_name: id_ssh_rsa
+user: dana
