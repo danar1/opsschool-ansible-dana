@@ -1,0 +1,49 @@
+---
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-east-1
+# keyed_groups:
+#   # add hosts to tag_Name_value groups for each aws_ec2 host's tags.Name variable
+#   - key: tags.Name
+#     prefix: Node_
+#     separator: ""
+groups:
+  # add hosts to the group nodes if any of the dictionary's keys is the word 'None'
+  nodes: "'Node' in tags"
+
+
+
+
+
+
+# https://docs.ansible.com/ansible/latest/collections/amazon/aws/aws_ec2_inventory.html
+
+
+# See the list of available plugins
+# ansible-doc -t inventory -l
+
+# See plugin doc 
+# ansible-doc -t inventory aws_ec2
+
+# On Server: set aws access key and secret key [I only set those env vars, no ansible.cfg change needed]
+# export AWS_ACCESS_KEY=...
+# export AWS_SECRET_KEY=....
+
+# On Server: install boto3 and botocore
+# sudo apt install python-pip
+# pip install virtualenv
+# pip install boto3
+# pip install botocore
+
+# Install aws_ec2 plugin 
+# ansible-galaxy collection install amazon.aws
+
+# After providing any required options, you can view the populated inventory with:
+# ansible-inventory -i aws_ec2.yml --graph
+
+
+# No need 
+# sudo vim /etc/ansible/ansible.cfg [No need to do this, it is enabled already , by auto plugin ?]
+# senable_plugins = amazon.aws.aws_ec2, host_list, virtualbox, yaml, constructed
+
+
