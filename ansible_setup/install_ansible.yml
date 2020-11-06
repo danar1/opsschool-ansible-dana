@@ -5,7 +5,7 @@
   vars_files:
     - ./external_vars.yml
 
-  
+  # ansible servers -i hosts.ini -m apt -a "update-cache=yes" --become
   tasks:
     - name: apt update
       apt:
@@ -34,6 +34,23 @@
         owner: ubuntu
         group: ubuntu
         mode: '0600'
+    
+    - name: Configure ssh
+      template:
+        src: ./ssh_conf.j2
+        dest: /home/ubuntu/.ssh/config
+        owner: ubuntu
+        group: ubuntu
+        backup: yes
+
+    - name: Copy file with owner and permissions
+      copy:
+        src: "{{ homework_dir }}"
+        dest: /home/ubuntu/
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
 
       
 

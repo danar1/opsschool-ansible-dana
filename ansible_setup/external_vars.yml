@@ -1,1 +1,6 @@
 ssh_key: ~/ops/ops-workspace/opsschool-ansible-dana/session1/terraform/ansible_key.pem
+server_identity: ~/.ssh/ansible_key.pem
+homework_dir: ~/ops/ops-workspace/opsschool-ansible-dana/homework
+nodes:
+  - 3.85.80.99
+  - 54.92.223.169
