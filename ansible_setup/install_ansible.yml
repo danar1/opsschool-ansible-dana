@@ -51,6 +51,19 @@
         group: ubuntu
         mode: '0755'
 
+    - name: Install python-pip
+      apt:
+        name: python-pip # We install python-pip and not python3-pip because the "default" python on this AMI is 2.7.17
+        state: latest
+
+    - name: Install boto3 & botocore
+      pip:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - boto3
+        - botocore
+
 
       
 

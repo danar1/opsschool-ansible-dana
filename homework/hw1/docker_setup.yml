@@ -68,6 +68,7 @@
     - name: Install docker SDK for python 
       pip:
         name: docker
+        state: present
 
     - name: Flush handler (restart docker)
       meta: flush_handlers 
