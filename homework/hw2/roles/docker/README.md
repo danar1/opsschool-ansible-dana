@@ -32,6 +32,7 @@ Example Playbook
 
 For Ubuntu:
 
+```
 - name: Install docker engine
   hosts: ubuntu_nodes
   become: true
@@ -42,9 +43,11 @@ For Ubuntu:
           - dana1
           - dana2
         docker_version: 5:19.03.9~3-0~ubuntu-bionic
+```
 
 For Centos:
 
+```
 - name: Install docker engine
   hosts: centos_nodes
   become: true
@@ -55,6 +58,7 @@ For Centos:
           - dana1
           - dana2
         docker_version: 19.03.4-3.el7
+```
 
 License
 -------
