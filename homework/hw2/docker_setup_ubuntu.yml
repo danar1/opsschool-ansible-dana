@@ -1,0 +1,11 @@
+---
+- name: Install docker engine
+  hosts: ubuntu_nodes
+  become: true
+  roles:
+    - role: docker
+      vars:
+        ubuntu_users:
+          - dana1
+          - dana2
+        docker_version: 5:19.03.9~3-0~ubuntu-bionic

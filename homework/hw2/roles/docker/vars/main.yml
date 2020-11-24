@@ -1,0 +1,64 @@
+---
+# vars file for docker
+
+# ubuntu vars
+ubuntu_old_docker_pkgs_uninstall:
+  - docker
+  - docker-engine
+  - docker.io
+  - containerd
+  - runc
+
+ubuntu_pkgs_install_use_https_repo:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
+
+ubuntu_docker_pkgs_install:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+
+ubuntu_docker_pkgs_install_by_version:
+  - docker-ce={{ docker_version }}
+  - docker-ce-cli={{ docker_version }}
+  - containerd.io
+
+ubuntu_docker_gpg_fingerprint: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+
+ubuntu_docker_gpg_url: https://download.docker.com/linux/ubuntu/gpg
+
+ubuntu_docker_repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+
+ubuntu_docker_registry_filename: docker-ce
+
+# centos vars
+centos_old_docker_pkgs_uninstall:
+  - docker
+  - docker-clien
+  - docker-client-latest
+  - docker-common
+  - docker-latest
+  - docker-latest-logrotate
+  - docker-logrotate
+  - docker-engine
+
+centos_docker_repo: https://download.docker.com/linux/centos/$releasever/$basearch/stable
+
+centos_docker_registry_filename: docker-ce
+
+centos_docker_pkgs_install:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+
+centos_docker_pkgs_install_by_version:
+  - docker-ce-{{ docker_version }}
+  - docker-ce-cli-{{ docker_version }}
+  - containerd.io
+
+centos_pkgs_install_pip:
+  - epel-release
+  - python-pip

@@ -1,0 +1,50 @@
+---
+# tasks file for docker installation on centos
+
+- name: Uninstall older Docker versions
+  yum:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ centos_old_docker_pkgs_uninstall }}"
+
+- name: Install package (to allow setup docker repository)
+  yum:
+    name: yum-utils
+    state: latest
+    update_cache: yes
+
+- name: Add docker repository
+  yum_repository:
+    name: docker-ce-stable
+    description: docker-ce stable repo
+    baseurl: "{{ centos_docker_repo }}"
+    state: present
+    file: "{{ centos_docker_registry_filename }}"
+
+- name: Install docker engine
+  yum:
+    name: "{{ item }}"
+    state: "{{ (docker_version == '') | ternary('latest', 'present') }}"
+    update_cache: yes
+  loop: "{{ (docker_version == '') | ternary(centos_docker_pkgs_install, centos_docker_pkgs_install_by_version) }}"
+  notify:
+  - Start docker
+
+- name: Create user(s) and add to the docker group
+  user:
+    name: "{{ item }}"
+    groups: docker
+    append: yes
+  loop: "{{ centos_users }}"
+
+# Install pip and docker SDK for python to allow the usage of community.general.docker_container module
+- name: Install pip 
+  yum:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ centos_pkgs_install_pip }}"
+
+- name: Install docker SDK for python 
+  pip:
+    name: docker
+    state: present

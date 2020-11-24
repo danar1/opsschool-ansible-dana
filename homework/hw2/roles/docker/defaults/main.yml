@@ -1,0 +1,14 @@
+---
+# defaults file for docker
+
+# ubuntu default vars
+ubuntu_users:
+  - ubuntu
+
+# centos default vars
+centos_users:
+  - centos
+
+# common default vars
+docker_version: ''
+container_name: nginx_ops

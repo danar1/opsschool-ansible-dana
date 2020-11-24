@@ -1,0 +1,14 @@
+StrictHostKeyChecking=no
+
+{% for node_ubuntu in nodes_ubuntu %}
+Host {{ node_ubuntu }}
+  HostName {{ node_ubuntu }}
+  IdentityFile {{ server_identity }}
+  User ubuntu
+  
+{% endfor %}
+
+Host {{ node_rhel }}
+  HostName {{ node_rhel }}
+  IdentityFile {{ server_identity }}
+  User centos

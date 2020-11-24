@@ -1,0 +1,11 @@
+---
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-east-1
+groups:
+  # add hosts to the group nodes if Node in value of Name tag
+  ubuntu_nodes: "'Ubuntu' in tags.OS"
+  centos_nodes: "'Centos' in tags.OS"
+compose:
+  # set the ansible_host variable to connect with the private IP address without changing the hostname
+  ansible_host: private_ip_address

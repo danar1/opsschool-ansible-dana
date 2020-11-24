@@ -1,6 +1,6 @@
 # Here we will add the server public ip 
 [servers]
-3.90.107.96
+3.84.140.231
 
 [servers:vars]
 ansible_user = ubuntu

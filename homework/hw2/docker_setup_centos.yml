@@ -1,0 +1,11 @@
+---
+- name: Install docker engine
+  hosts: centos_nodes
+  become: true
+  roles:
+    - role: docker
+      vars:
+        centos_users:
+          - dana1
+          - dana2
+        docker_version: 19.03.4-3.el7

@@ -1,0 +1,20 @@
+# To disable skipped hosts logs in stdout
+# In /etc/ansible/ansible.cfg, set display_skipped_hosts = no
+
+- include: install_centos.yml
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version | int == 7
+
+- include: install_ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+- name: Flush handler (start/restart docker)
+  meta: flush_handlers 
+
+- name: Run nginx container
+  community.general.docker_container:
+    name: "{{ container_name }}"
+    image: nginx
+    detach: yes
+    state: started
+    ports:
+      - "8080:80"
